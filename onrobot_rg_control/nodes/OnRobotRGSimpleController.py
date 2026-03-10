@@ -96,10 +96,18 @@ def publisher():
         'OnRobotRGOutput', OnRobotRGOutput, queue_size=1)
     command = OnRobotRGOutput()
 
+    def shutdown():
+        rospy.loginfo(rospy.get_name() + ': Shutting down.')
+
+    rospy.on_shutdown(shutdown)
+
     while not rospy.is_shutdown():
-        command = genCommand(askForCommand(command), command)
-        pub.publish(command)
-        rospy.sleep(0.1)
+        try:
+            command = genCommand(askForCommand(command), command)
+            pub.publish(command)
+            rospy.sleep(0.1)
+        except KeyboardInterrupt:
+            rospy.signal_shutdown('KeyboardInterrupt')
 
 
 if __name__ == '__main__':

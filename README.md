@@ -129,6 +129,31 @@ roslaunch onrobot_vg_description disp_vgc10_4cups_model.launch
 roslaunch onrobot_vg_description disp_vg10_model.launch
 ```
 
+### RG2 / RG6 (Dual Quicker Changer)
+
+For use with a Dual Tool Changer mounting two RG grippers simultaneously.
+
+#### Default configuration
+
+- RG2 — Primary Side (1)
+- RG6 — Secondary Side (2)
+
+#### Dual send motion commands
+
+```bash
+roslaunch onrobot_rg_control bringup_dual.launch ip:=XXX.XXX.XXX.XXX gripper_primary:=rg2 gripper_secondary:=rg6
+rosrun onrobot_rg_control OnRobotRGDualServer.py
+```
+```bash
+rosservice call /onrobot_rg/set_command_A 'c'
+rosservice call /onrobot_rg/set_command_A 'o'
+rosservice call /onrobot_rg/set_command_A '!!str 300'
+rosservice call /onrobot_rg/set_command_B 'c'
+rosservice call /onrobot_rg/set_command_B 'o'
+rosservice call /onrobot_rg/set_command_B '!!str 300'
+rosservice call /onrobot_rg/restart_power
+```
+
 ## Author
 
 [Takuya Kiyokawa](https://takuya-ki.github.io/)
